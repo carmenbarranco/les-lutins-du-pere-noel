@@ -27,3 +27,4 @@ app/build/
 .idea
 
 app/.env
+mysql/*
