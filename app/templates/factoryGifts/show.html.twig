@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Usines{% endblock %}
+
+{% block body %}
+    <div class="container bg-white mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <a href="{{ path('factory_gifts_index') }}">Retourner à la liste des usines</a>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-12 border-left border-right border-bottom  bg-white p-0">
+                <div class="card-header card-header-sm card-header-primary mb-4">
+                    <h2 class="text-white text-center ">{{ factory_gifts.name }}</h2>
+                </div>
+                <div class="col-md-12 mt-5 mb-5">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row text-center">
+                                <div class="col-md-3">
+                                    <h5 class="h5">Adresse</h5>
+                                    <p>{{ factory_gifts.address }}</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <h5 class="h5">Téléphone</h5>
+                                    <p>{{ factory_gifts.phone }}</p>
+                                </div>
+                                <div class="col-md-6 text-center">
+                                    <h5 class="h5">Pays</h5>
+                                    <p>{{ factory_gifts.countryCode }}</p>
+                                </div>
+                            </div>
+                            <div class="row text-center">
+                                <div class="col-md-12 text-center">
+                                    <h5 class="h5">Lutins</h5>
+                                    {% for lutins in factory_gifts.users  %}
+                                        {% if "ROLE_ELVES" in lutins.roles %}
+                                            <p>{{ lutins.firstName }} {{ lutins.lastName }}</p>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <div class="row justify-content-md-center">
+                        {% if is_granted('ROLE_CHIEF') %}
+                            <div class="col-md-2">
+                                <a class="btn btn-success bg-success btn-sm text-white"
+                                   href="{{ path('factory_gifts_edit', {'id': factory_gifts.id}) }}">Éditer</a>
+                            </div>
+                            <div class="col-md-2">
+                                {{ include('factoryGifts/_delete_form.html.twig') }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

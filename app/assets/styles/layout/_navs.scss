@@ -1,0 +1,7 @@
+@import "../custom";
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: $primary;
+  background-color: white!important;
+  border-bottom: 1px solid $primary;
+  padding-bottom: 3px;
+}

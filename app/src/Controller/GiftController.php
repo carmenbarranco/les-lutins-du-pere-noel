@@ -5,14 +5,26 @@ namespace App\Controller;
 use App\Entity\Gift;
 use App\Form\GiftType;
 use App\Repository\GiftRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/gift')]
 class GiftController extends AbstractController
 {
+
+    private NotifierInterface $notifier;
+    private EntityManagerInterface $em;
+
+    public function __construct(NotifierInterface $notifier, EntityManagerInterface $em)
+    {
+        $this->notifier = $notifier;
+        $this->em = $em;
+    }
+
     #[Route('/', name: 'gift_index', methods: ['GET'])]
     public function index(GiftRepository $giftRepository): Response
     {
@@ -29,9 +41,8 @@ class GiftController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($gift);
-            $entityManager->flush();
+            $this->em->persist($gift);
+            $this->em->flush();
 
             return $this->redirectToRoute('gift_index');
         }
@@ -57,7 +68,7 @@ class GiftController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->em->flush();
 
             return $this->redirectToRoute('gift_index');
         }
@@ -71,10 +82,9 @@ class GiftController extends AbstractController
     #[Route('/{id}', name: 'gift_delete', methods: ['POST'])]
     public function delete(Request $request, Gift $gift): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$gift->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($gift);
-            $entityManager->flush();
+        if ($this->isCsrfTokenValid('delete' . $gift->getId(), $request->request->get('_token'))) {
+            $this->em->remove($gift);
+            $this->em->flush();
         }
 
         return $this->redirectToRoute('gift_index');

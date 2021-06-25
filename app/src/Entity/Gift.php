@@ -6,18 +6,25 @@ use App\Repository\GiftRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
  * @ORM\Entity(repositoryClass=GiftRepository::class)
+ * @ApiResource(
+ *  collectionOperations={"get"={"normalization_context"={"groups"="gift:list"}}},
+ *     itemOperations={"get"={"normalization_context"={"groups"="gift:item"}}},
+ *     paginationEnabled=false)
  */
+
 class Gift
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="uuid", unique=true)
      */
+
     private $id;
 
     /**
@@ -34,32 +41,48 @@ class Gift
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * #[Groups(['gift:list', 'gift:item'])]
      */
     private $description;
 
     /**
      * @ORM\Column(type="float")
+     * #[Groups(['gift:list', 'gift:item'])]
      */
     private $price;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="gifts")
+     * #[Groups(['gift:list', 'gift:item'])]
      */
     private $receiver;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Factory::class, inversedBy="gifts")
+     * @ORM\ManyToOne(targetEntity=FactoryGifts::class, inversedBy="gifts")
+     *#[Groups(['gift:list', 'gift:item'])]
      * @ORM\JoinColumn(nullable=false)
      */
-    private $factory;
+    private $factoryGifts;
 
     /**
      * @ORM\ManyToOne(targetEntity=GiftCode::class, inversedBy="gifts")
+     * #[Groups(['gift:list', 'gift:item'])]
      * @ORM\JoinColumn(nullable=false)
      */
     private $code;
 
-    public function getId(): ?int
+    /**
+     * @ORM\Column(type="string", length=255)
+     * #[Groups(["gift:list", "gift:item"])]
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $sentToSanta;
+
+    public function getId()
     {
         return $this->id;
     }
@@ -124,14 +147,14 @@ class Gift
         return $this;
     }
 
-    public function getFactory(): ?Factory
+    public function getFactoryGifts(): ?FactoryGifts
     {
-        return $this->factory;
+        return $this->factoryGifts;
     }
 
-    public function setFactory(?Factory $factory): self
+    public function setFactoryGifts(?FactoryGifts $factoryGifts): self
     {
-        $this->factory = $factory;
+        $this->factoryGifts = $factoryGifts;
 
         return $this;
     }
@@ -144,6 +167,40 @@ class Gift
     public function setCode(?GiftCode $code): self
     {
         $this->code = $code;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @param $id
+     * @return Gift
+     */
+    public function setId($id): Gift
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    public function getSentToSanta(): ?bool
+    {
+        return $this->sentToSanta;
+    }
+
+    public function setSentToSanta(bool $sentToSanta): self
+    {
+        $this->sentToSanta = $sentToSanta;
 
         return $this;
     }

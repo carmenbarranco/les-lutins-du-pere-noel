@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -15,6 +16,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -52,36 +54,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $lastName;
 
     /**
-     * @ORM\Column(type="string", length=13, nullable=true)
+     * @ORM\Column(type="string", length=20, nullable=true)
      */
     private $phone;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Factory::class, inversedBy="elves")
+     * @ORM\ManyToOne(targetEntity=FactoryGifts::class, inversedBy="users",  cascade={"persist"})
      */
-    private $factory;
+    private $factoryGifts;
 
     /**
      * @ORM\Column(type="datetime_immutable")
      * @Gedmo\Timestampable(on="create")
      */
-    private $createdAt;
+    private ?DateTimeImmutable $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable")
      * @Gedmo\Timestampable(on="update")
      */
-    private $updatedAt;
+    private ?DateTimeImmutable $updatedAt;
 
     /**
      * @ORM\Column(type="string", length=20)
      */
-    private $countryCode;
+    private ?string $countryCode;
 
     /**
      * @ORM\OneToMany(targetEntity=Gift::class, mappedBy="receiver")
      */
-    private $gifts;
+    private ?Collection $gifts;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $isVerified = false;
 
     #[Pure] public function __construct()
     {
@@ -213,14 +220,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getFactory(): ?Factory
+    public function getFactoryGifts(): ?FactoryGifts
     {
-        return $this->factory;
+        return $this->factoryGifts;
     }
 
-    public function setFactory(?Factory $factory): self
+    public function setFactoryGifts(?FactoryGifts $factoryGifts): self
     {
-        $this->factory = $factory;
+        $this->factoryGifts = $factoryGifts;
 
         return $this;
     }
@@ -290,4 +297,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+
+    /**
+     * Generates the magic method
+     *
+     */
+    public function __toString(): string
+    {
+        return $this->firstName . " " . $this->lastName;
+    }
+
+
+
 }

@@ -1,0 +1,7 @@
+@function rem($size, $base: 16){
+  @if (2 > 1) {
+    @return 1rem * $size / $base
+  } @else {
+    @return 6rem * $size / $base
+  }
+}
