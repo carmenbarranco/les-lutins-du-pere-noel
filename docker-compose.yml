@@ -1,0 +1,34 @@
+version: "3.8"
+services:
+  database:
+    image: 'mysql:latest'
+    container_name: db_elves
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=elves
+      - MYSQL_DB_HOST=localhost
+    ports:
+      - 3308:3306
+    volumes:
+      - ./mysql:/var/lib/mysql
+
+  www:
+    build: config/php
+    container_name: santa_elves
+    environment:
+      - "TZ=Europe/Paris"
+    ports:
+      - "8889:80"
+    volumes:
+      - ./config/vhosts:/etc/apache2/sites-enabled
+      - ./config/php/php.ini:/usr/local/etc/php/php.ini
+      - ./:/var/www
+      - "/etc/localtime:/etc/localtime:ro"
+    restart: always
+    working_dir: /var/www/app
+    links:
+      - database
+
+volumes:
+  db-data:
+  config: { }
