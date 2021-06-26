@@ -1,12 +1,6 @@
 @import "../custom";
-@import "../libs/functions";
-
-%btn {
-  padding: rem(5) rem(12);
-}
 
 .btn {
-  @extend %btn;
   background: linear-gradient(to right top, #f9968b, #f69c91, #f2a196, #efa79c, #ebaca2);
   border-radius: 20px;
   &:hover {
@@ -19,15 +13,6 @@
   background: linear-gradient(to right top, rgba(0,109,119,1) , rgba(34,193,195,1));
 }
 
-@media #{$medium-up} {
-  .btn {
-    width: 100%;
-  }
-}
-
-.iconLogout {
-  font-size: 30px;
-}
 
 .buttonWithoutStyle {
   background: transparent;

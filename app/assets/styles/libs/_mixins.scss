@@ -1,5 +1,0 @@
-@mixin rotate($rotation: 10deg) {
-  -ms-transform: rotate($rotation);
-  -webkit-transform: rotate($rotation);
-  transform: rotate($rotation);
-}

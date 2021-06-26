@@ -1,13 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Factory{% endblock %}
+{% block title %}Editer usine{% endblock %}
 
 {% block body %}
-    <h1>Edit Factory</h1>
-
-    {{ include('factoryGifts/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('factory_gifts_index') }}">back to list</a>
-
-    {{ include('factoryGifts/_delete_form.html.twig') }}
+    <div class="row">
+        <div class="col-md-12 p-0">
+            <h2 class="text-primary mt-5 text-center">Éditer usine</h2>
+        </div>
+        <div class="container bg-white mt-5">
+            <div class="p-0 col-md-12">
+                <div class="p-0 card-body card-block">
+                    {{ include('factoryGifts/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+                </div>
+            </div>
+            <div class="p-0 col-md-12">
+                <div class="p-0 card-body card-block">
+                    {{ include('factoryGifts/_delete_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

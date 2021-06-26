@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les cadeaux{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <table class="table table-hover mt-4 table-sm table-bordered tablesTraining">
+                <thead class="table-secondary">
+                <tr class="text-primary">
+                    <th colspan="6" scope="colgroup" class="text-center">Stock</th>
+                </tr>
+                <tr>
+                    <th scope="col" class="textInLists textCenterInLists">Usine</th>
+                    <th scope="col" class="textInLists textCenterInLists">Cadeaux</th>
+                    <th scope="col" class="textInLists textCenterInLists">Pays</th>
+                    <th scope="col" class="textInLists textCenterInLists">Prix moyen</th>
+                    <th scope="col" class="textInLists textCenterInLists">Moins chère</th>
+                    <th scope="col" class="textInLists textCenterInLists">Plus chère</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for factory in factories %}
+                    <tr>
+                        <td class="textInLists textCenterInLists text-primary">{{ factory.name }}</td>
+                        <td class="textInLists textCenterInLists">
+                            <button class="buttonWithoutStyle" data-toggle="modal"
+                                    data-target="#showGifts_{{ factory.id }}">{{ factory.gifts|length }}</button>
+                            <div class="modal fade" id="showGifts_{{ factory.id }}" tabindex="-1" role="dialog"
+                                 aria-labelledby="showGiftsLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            {% for gift in factory.gifts %}
+                                                <p>{{ gift.name }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>Pays</td>
+                        <td>Prix</td>
+                        <td>Prix moins</td>
+                        <td>Prix plus</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

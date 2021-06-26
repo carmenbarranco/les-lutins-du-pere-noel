@@ -10,7 +10,7 @@
             </div>
             <div class="col-md-12">
                 <div class="row">
-                    <div class="offset-4 col-4 mt-4">
+                    <div class="col-md-6 mt-4 text-right">
                         <a href="{{ path('app_login') }}" class="btn btn-primary">Cliquez ici</a>
                     </div>
                 </div>
@@ -18,14 +18,14 @@
         </div>
     {% else %}
         {% if is_granted("ROLE_SANTA") %}
-            <div class="row mt-5">
+            <div class="row m-5">
                 <div class="col-md-12 text-center">
                     <h1 class="text-primary h1 font-weight-light font-italic">
                         Bienvenue Père Nöel
                     </h1>
                 </div>
             </div>
-            <div class="row mt-5">
+            <div class="row m-5">
                 <div class="col-md-6">
                     <div class="card parentCard">
                         <div class="card-header text-center adminCardHeader">
@@ -36,25 +36,25 @@
                 <div class="col-md-6">
                     <div class="card parentCard">
                         <div class="card-header text-center adminCardHeader">
-                            <a href="{{ path("gift_index") }}" class="text-white">Les cadeaux</a>
+                            <a href="{{ path("gift_index_by_factory") }}" class="text-white">Le stock</a>
                         </div>
                     </div>
                 </div>
             </div>
         {% endif %}
         {% if is_granted("ROLE_CHIEF") %}
-            <div class="row mt-5">
+            <div class="row m-5">
                 <div class="col-md-12 text-center">
                     <h1 class="text-primary h1 font-weight-light font-italic">
                         Bienvenue Chef
                     </h1>
                 </div>
             </div>
-            <div class="row">
+            <div class="row m-5">
                 <div class="col-md-6">
                     <div class="card parentCard">
                         <div class="card-header text-center adminCardHeader">
-                            <a href="{{ path("factory_gifts_index") }}" class="text-white">Les LUTINS</a>
+                            <a href="{{ path("factory_gifts_elves", {'id': app.user.factoryGifts.id} ) }}" class="text-white">Les LUTINS</a>
                         </div>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
             </div>
         {% endif %}
         {% if is_granted("ROLE_ELVES") %}
-            <div class="row mt-5">
+            <div class="row m-5">
                 <div class="col-md-12 text-center">
                     <h1 class="text-primary h1 font-weight-light font-italic">
                         Bienvenue Luttin
@@ -78,13 +78,13 @@
             <div class="col-md-4 mb-4">
                 <div class="card parentCard">
                     <div class="card-header text-center adminCardHeader">
-                        <a href="#" class="text-white">Les cadeaux</a>
+                        <a href="{{ path("gift_index") }}" class="text-white">Les cadeaux</a>
                     </div>
                 </div>
             </div>
         {% endif %}
         {% if is_granted("ROLE_RECEIVER") %}
-            <div class="row mt-5">
+            <div class="row m-5">
                 <div class="col-md-12 text-center">
                     <h1 class="text-primary h1 font-weight-light font-italic">
                         Bienvenue chèr client
@@ -99,6 +99,5 @@
                 </div>
             </div>
         {% endif %}
-        </div>
     {% endif %}
 {% endblock %}

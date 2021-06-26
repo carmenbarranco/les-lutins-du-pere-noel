@@ -1,13 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Gift{% endblock %}
+{% block title %}Éditer cadeau{% endblock %}
 
 {% block body %}
-    <h1>Edit Gift</h1>
-
-    {{ include('gift/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('gift_index') }}">back to list</a>
-
-    {{ include('gift/_delete_form.html.twig') }}
+    <div class="row">
+        <div class="col-md-12 p-0">
+            <h4 class="h4 text-primary mt-5 text-center">Éditer cadeau</h4>
+        </div>
+        <div class="container bg-white mt-3">
+            <div class="p-0 col-md-12">
+                <div class="p-0 card-body card-block">
+                    {{ include('gift/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
+
+

@@ -21,22 +21,22 @@ class UsersFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        for ($nbUsers = 1; $nbUsers <= 30; $nbUsers++) {
+        for ($nbUsers = 1; $nbUsers <= 20; $nbUsers++) {
             $user = new User();
             $user->setEmail($this->faker->email);
             if ($nbUsers === 1) {
                 $user->setRoles(['ROLE_SANTA']);
                 $user->setEmail('perenoel@les-lutins-du-pere-noel.fr');
                 $this->addReference('user_' . $nbUsers, $user);
-            } elseif (2 <= $nbUsers && $nbUsers <= 10) {
+            } elseif (2 <= $nbUsers && $nbUsers <= 5) {
                 $user->setRoles(['ROLE_CHIEF']);
                 $user->setEmail('chef'.$nbUsers.'@les-lutins-du-pere-noel.fr');
                 $this->addReference('user_' . $nbUsers, $user);
-            } elseif (11 <= $nbUsers && $nbUsers <= 20) {
+            } elseif (5 <= $nbUsers && $nbUsers <= 12) {
                 $user->setRoles(['ROLE_ELVES']);
                 $user->setEmail('lutin'.$nbUsers.'@les-lutins-du-pere-noel.fr');
                 $this->addReference('user_' . $nbUsers, $user);
-            } elseif($nbUsers > 20) {
+            } else {
                 $user->setRoles(['ROLE_RECEIVER']);
                 $user->setEmail('receiver'.$nbUsers.'@les-lutins-du-pere-noel.fr');
                 $this->addReference('user_' . $nbUsers, $user);

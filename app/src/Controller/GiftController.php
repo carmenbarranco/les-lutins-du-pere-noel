@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Gift;
 use App\Form\GiftType;
+use App\Repository\FactoryGiftsRepository;
 use App\Repository\GiftRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/gift')]
+#[Route('/cadeaux')]
 class GiftController extends AbstractController
 {
 
@@ -28,8 +29,26 @@ class GiftController extends AbstractController
     #[Route('/', name: 'gift_index', methods: ['GET'])]
     public function index(GiftRepository $giftRepository): Response
     {
+        $gifts = "";
+        if ($this->isGranted('ROLE_CHIEF') || $this->isGranted('ROLE_ELVES')) {
+            $gifts = $giftRepository->findBy(["factoryGifts" => $this->getUser()->getFactoryGifts()]);
+            dump($this->getUser());
+        } elseif ($this->isGranted('ROLE_RECEIVER')) {
+            $gifts = $giftRepository->findBy(['receiver' => $this->getUser()->getId()]);
+        }
+
         return $this->render('gift/index.html.twig', [
-            'gifts' => $giftRepository->findAll(),
+            'gifts' => $gifts,
+        ]);
+    }
+
+    #[Route('/stocks', name: 'gift_index_by_factory', methods: ['GET'])]
+    public function indexByFactory(FactoryGiftsRepository $factoryGiftRepo): Response
+    {
+        $factories = $factoryGiftRepo->findAll();
+
+        return $this->render('gift/indexByFactory.html.twig', [
+            'factories' => $factories,
         ]);
     }
 

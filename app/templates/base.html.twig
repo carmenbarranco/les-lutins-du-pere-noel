@@ -18,7 +18,7 @@
 {% endfor %}
 {% block header %}
     <header class="navbar navbar-dark sticky-top bg-primary flex-md-nowrap shadow">
-        <div class="col-md-6">
+        <div class="col-md-6 ml-3">
             <a class="navbar-brand" href="{{ path('app_home') }}">
                 Gestion de stock des cadeaux du Père Nöel
             </a>
@@ -26,15 +26,16 @@
         <div class="col-md-6">
             <div class="row justify-content-end">
                 {% if app.user %}
-                    <div class="col-md-3">
-                        <a class="btn btn-primary connexion_btn" href="{{ path('app_logout') }}">Déconnexion</a>
+                    <div class="col-md-6">
+                        <a class="btn btn-primary connexion_btn" href="{{ path('app_logout') }}">Déconnexion
+                            ({{ app.user.firstName }} {{ app.user.lastName }} )</a>
                     </div>
                 {% endif %}
             </div>
         </div>
     </header>
 {% endblock %}
-<div class="container">
+<div class="container-fluid">
     {% block body %}
     {% endblock %}
 </div>

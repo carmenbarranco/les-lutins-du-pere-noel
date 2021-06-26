@@ -1,11 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}LUsine{% endblock %}
+{% block title %}Les usines{% endblock %}
 
 {% block body %}
     <div class="row mt-5">
         <div class="col-md-6">
-            <a href="{{ path('factory_gifts_new') }}">Créer usine</a>
+            {% if "ROLE_SANTA" in app.user.roles %}
+                <a href="{{ path('factory_gifts_new') }}">Créer usine</a>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <a href="{{ path('app_home') }}">Accueil</a>
         </div>
     </div>
     <table class="table mt-4 table-sm table-bordered small">
@@ -41,7 +46,7 @@
                             {% set elves = elves + 1 %}
                         {% endif %}
                     {% endfor %}
-                    <a href="{{ path('user_show', {'id': elves.id}) }}">{{ elves }}</a>
+{#                    <a href="{{ path('user_show', {'id': elves.id}) }}">{{ elves }}</a>#}
                 </td>
                 <td class="textInLists textCenterInLists">
                     <a href="{{ path('factory_gifts_show', {'id': factory.id}) }}">Voir</a>

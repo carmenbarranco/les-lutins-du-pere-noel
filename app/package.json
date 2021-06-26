@@ -1,7 +1,6 @@
 {
     "devDependencies": {
         "@fortawesome/fontawesome-free": "^5.15.2",
-        "@symfony/stimulus-bridge": "^2.0.0",
         "@symfony/webpack-encore": "^1.0.0",
         "autoprefixer": "^10.2.4",
         "bootstrap": "^4.6.0",
@@ -13,7 +12,6 @@
         "postcss-loader": "^5.0.0",
         "regenerator-runtime": "^0.13.2",
         "sass-loader": "^11.0.1",
-        "stimulus": "^2.0.0",
         "webpack-notifier": "^1.6.0"
     },
     "license": "UNLICENSED",
@@ -26,10 +24,6 @@
         "deploy_staging": "scripts/deploy_staging.sh"
     },
     "dependencies": {
-        "bootstrap-datepicker": "^1.9.0",
-        "datatables.net-bs4": "^1.10.24",
-        "jquery": "^3.6.0",
-        "postcss": "^8.2.6",
-        "select2": "^4.1.0-rc.0"
+        "jquery": "^3.6.0"
     }
 }

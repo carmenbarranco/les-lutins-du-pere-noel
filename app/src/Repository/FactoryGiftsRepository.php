@@ -47,4 +47,13 @@ class FactoryGiftsRepository extends ServiceEntityRepository
         ;
     }
     */
+//    public function allGiftByFactory()
+//    {
+//        return $this->createQueryBuilder('f')
+//            ->andWhere('f.exampleField = :val')
+//            ->setParameter('val', $value)
+//            ->getQuery()
+//            ->getOneOrNullResult()
+//            ;
+//    }
 }

@@ -1,12 +1,5 @@
 @import "../custom";
 
-.ulListesTraining {
-  list-style: square;
-}
-.ulListesTraining li::before {
-  color: $primary
-}
-
 .textCenterInLists  {
   text-align: center;
 }

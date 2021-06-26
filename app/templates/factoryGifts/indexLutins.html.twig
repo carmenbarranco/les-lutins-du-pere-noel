@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LUsine{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-md-6">
+                <a href="{{ path('app_home') }}">Retour</a>
+            </div>
+        </div>
+        <table class="table mt-4 table-sm table-bordered small">
+            <thead class="table-secondary">
+            <tr class="text-primary">
+                <th class="text-center">Nom</th>
+                <th class="text-center">Téléphone</th>
+            </tr>
+            </thead>
+            {% for elf in elves %}
+                <tbody>
+                <tr>
+                    <td class="textInLists textCenterInLists">{{ elf.firstName ?: "" }}</td>
+                    <td class="textInLists textCenterInLists">{{ elf.phone ?: "" }}</td>
+                </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
+

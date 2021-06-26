@@ -1,22 +1,12 @@
 @import "custom";
 @import "~bootstrap/scss/bootstrap";
 @import '~@fortawesome/fontawesome-free/css/all.css';
-@import "./libs/responsive.scss";
-@import "./libs/reset.scss";
-@import "./libs/mixins.scss";
-@import "./libs/functions.scss";
 @import './layout/header';
-@import './layout/sidebar';
-@import './layout/footer';
 @import './layout/body';
-@import './layout/forms';
 @import './layout/cards';
-@import './layout/tables';
 @import './layout/buttons';
-@import './layout/navs';
 @import './layout/fontsStyles';
 @import './layout/lists';
-@import "~select2/dist/css/select2.min.css";
 
 @font-face {
   font-family: 'NexaLight';
