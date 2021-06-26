@@ -24,8 +24,7 @@ app/web/uploads/
 # Build data
 app/build/
 
+mysql/*
 .idea
-
 app/.env
-/mysql/*
 
