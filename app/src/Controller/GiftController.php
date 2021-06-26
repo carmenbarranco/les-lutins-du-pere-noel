@@ -32,7 +32,6 @@ class GiftController extends AbstractController
         $gifts = "";
         if ($this->isGranted('ROLE_CHIEF') || $this->isGranted('ROLE_ELVES')) {
             $gifts = $giftRepository->findBy(["factoryGifts" => $this->getUser()->getFactoryGifts()]);
-            dump($this->getUser());
         } elseif ($this->isGranted('ROLE_RECEIVER')) {
             $gifts = $giftRepository->findBy(['receiver' => $this->getUser()->getId()]);
         }

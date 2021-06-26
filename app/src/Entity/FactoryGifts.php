@@ -189,4 +189,60 @@ class FactoryGifts
     {
         return $this->name;
     }
+
+    /**
+     * @return int
+     * Function to get the number of differents country
+     */
+    public function nbCountry(): int
+    {
+        $gifts = $this->getGifts();
+        $usersCode = [];
+        foreach ($gifts as $gift) {
+            array_push($usersCode, $gift->getReceiver()->getcountryCode());
+        }
+        return count(array_unique($usersCode));
+    }
+
+    /**
+     * @return float|int
+     * Get the avarage price from all gifts
+     */
+    public function averagePrice(): float|int
+    {
+        $prices = $this->getAllPrice();
+        return $prices ? array_sum($prices)/count($prices) : 0;
+    }
+
+    /**
+     * @return float|int
+     * Get the more expensive price from all gifts
+     */
+    public function maxPrice(): float|int
+    {
+        return $this->getAllPrice() ? max($this->getAllPrice()) : 0;
+    }
+
+    /**
+     * @return float|int
+     * Get the cheapest price from all gifts
+     */
+    public function minPrice(): float|int
+    {
+        return $this->getAllPrice() ? min($this->getAllPrice()) : 0;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAllPrice(): array
+    {
+        $gifts = $this->getGifts();
+        $prices = [];
+        foreach ($gifts as $gift) {
+            array_push($prices, $gift->getPrice());
+        }
+        dump($prices);
+        return $prices;
+    }
 }

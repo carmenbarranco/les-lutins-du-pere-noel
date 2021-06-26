@@ -13,7 +13,7 @@
                 <tr>
                     <th scope="col" class="textInLists textCenterInLists">Usine</th>
                     <th scope="col" class="textInLists textCenterInLists">Cadeaux</th>
-                    <th scope="col" class="textInLists textCenterInLists">Pays</th>
+                    <th scope="col" class="textInLists textCenterInLists">Nb pays</th>
                     <th scope="col" class="textInLists textCenterInLists">Prix moyen</th>
                     <th scope="col" class="textInLists textCenterInLists">Moins chère</th>
                     <th scope="col" class="textInLists textCenterInLists">Plus chère</th>
@@ -39,10 +39,10 @@
                                 </div>
                             </div>
                         </td>
-                        <td>Pays</td>
-                        <td>Prix</td>
-                        <td>Prix moins</td>
-                        <td>Prix plus</td>
+                        <td class="textInLists textCenterInLists">{{ factory.nbCountry }}</td>
+                        <td class="textInLists textCenterInLists">{{ factory.averagePrice|round(2) }} €</td>
+                        <td class="textInLists textCenterInLists">{{ factory.minPrice|round(2) }} €</td>
+                        <td class="textInLists textCenterInLists">{{ factory.maxPrice|round(2) }} €</td>
                     </tr>
                 {% endfor %}
                 </tbody>
