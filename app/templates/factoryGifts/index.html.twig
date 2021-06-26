@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les usines{% endblock %}
+
+{% block body %}
+    <div class="row mt-5">
+        <div class="col-md-6">
+            {% if "ROLE_SANTA" in app.user.roles %}
+                <a href="{{ path('factory_gifts_new') }}">Créer usine</a>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <a href="{{ path('app_home') }}">Accueil</a>
+        </div>
+    </div>
+    <table class="table mt-4 table-sm table-bordered small">
+        <thead class="table-secondary">
+        <tr class="text-primary">
+            <th class="text-center">Nom</th>
+            <th class="text-center">Addresse</th>
+            <th class="text-center">Téléphone</th>
+            <th class="text-center">Pays</th>
+            <th class="text-center">Chef</th>
+            <th class="text-center">Lutins</th>
+            <th class="text-center">Action</th>
+        </tr>
+        </thead>
+        {% for factory in factories_gifts %}
+            <tbody>
+            <tr>
+                <td class="textInLists textCenterInLists">{{ factory.name|upper ?: "" }}</td>
+                <td class="textInLists textCenterInLists">{{ factory.address ?: "" }}</td>
+                <td class="textInLists textCenterInLists">{{ factory.phone ?: "" }}</td>
+                <td class="textInLists textCenterInLists">{{ factory.countryCode|country_name ?: "" }}</td>
+                <td class="textInLists textCenterInLists">
+                    {% for chief in factory.users %}
+                        {% if "ROLE_CHIEF" in chief.roles %}
+                            {{ chief ? chief.firstName : "Non renseigné" }} {{ chief ? chief.lastName : "" }}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td class="textInLists textCenterInLists">
+                    {% set elves = 0 %}
+                    {% for agent in factory.users %}
+                        {% if "ROLE_ELVES" in agent.roles %}
+                            {% set elves = elves + 1 %}
+                        {% endif %}
+                    {% endfor %}
+{#                    <a href="{{ path('user_show', {'id': elves.id}) }}">{{ elves }}</a>#}
+                </td>
+                <td class="textInLists textCenterInLists">
+                    <a href="{{ path('factory_gifts_show', {'id': factory.id}) }}">Voir</a>
+                    <a href="{{ path('factory_gifts_edit', {'id': factory.id}) }}">Éditer</a>
+                </td>
+            </tr>
+            </tbody>
+        {% endfor %}
+    </table>
+{% endblock %}
+

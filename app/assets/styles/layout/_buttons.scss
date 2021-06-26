@@ -1,0 +1,38 @@
+@import "../custom";
+
+.btn {
+  background: linear-gradient(to right top, #f9968b, #f69c91, #f2a196, #efa79c, #ebaca2);
+  border-radius: 20px;
+  &:hover {
+    background-image: linear-gradient(to right top, #f9968b, #f69c91, #f2a196, #efa79c, #ebaca2);
+  }
+}
+
+.saveButtons {
+  border-radius: 20px;
+  background: linear-gradient(to right top, rgba(0,109,119,1) , rgba(34,193,195,1));
+}
+
+
+.buttonWithoutStyle {
+  background: transparent;
+  box-shadow: 0 0 0 transparent;
+  border: 0 solid transparent;
+  text-shadow: 0 0 0 transparent;
+}
+
+.buttonWithoutStyle:hover {
+  background: transparent;
+  box-shadow: 0 0 0 transparent;
+  border: 0 solid transparent;
+  text-shadow: 0 0 0 transparent;
+}
+
+.buttonWithoutStyle:active {
+  outline: none;
+  border: none;
+}
+
+.buttonWithoutStyle:focus {
+  outline: 0;
+}

@@ -1,0 +1,8 @@
+header, .card-header-primary {
+  background: rgb(34,193,195);
+  background: radial-gradient(circle, rgba(34,193,195,1) 0%, rgba(0,109,119,1) 100%);
+}
+
+.card-header-primary, .card-header-secondary {
+  border-radius: 0!important;
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %} Le site de stock des jouets {% endblock %}</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+</head>
+<body class="bg-white">
+{% for message in app.flashes('notification') %}
+    <div class="alert alert-info alert-dismissible fade show">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+    </div>
+{% endfor %}
+{% block header %}
+    <header class="navbar navbar-dark sticky-top bg-primary flex-md-nowrap shadow">
+        <div class="col-md-6 ml-3">
+            <a class="navbar-brand" href="{{ path('app_home') }}">
+                Gestion de stock des cadeaux du Père Nöel
+            </a>
+        </div>
+        <div class="col-md-6">
+            <div class="row justify-content-end">
+                {% if app.user %}
+                    <div class="col-md-6">
+                        <a class="btn btn-primary connexion_btn" href="{{ path('app_logout') }}">Déconnexion
+                            ({{ app.user.firstName }} {{ app.user.lastName }} )</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+{% endblock %}
+<div class="container-fluid">
+    {% block body %}
+    {% endblock %}
+</div>
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
+</body>
+</html>
+

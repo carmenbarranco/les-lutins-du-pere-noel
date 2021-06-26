@@ -1,0 +1,21 @@
+@import "../custom";
+
+.formsCard, .indexCards, .showCards {
+  box-shadow: 0.1px 1px 2px $success;
+  border-radius: 20px;
+}
+
+.formsCardHeader, .indexCardsHeader, .showCardsHeader {
+  box-shadow: 0.1px 1px 2px $success!important;
+  border-radius: 20px 20px 0 0!important;
+}
+
+.adminCardHeader {
+  background: linear-gradient(to right top, #f9968b, #f69c91, #f2a196, #efa79c, #ebaca2);
+  box-shadow: 0.1px 1px 2px $success!important;
+  border-radius: 20px!important;
+}
+
+.parentCard {
+  border: none;
+}
