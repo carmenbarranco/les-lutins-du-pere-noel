@@ -13,14 +13,14 @@
                     <a class="btn btn-primary" href="{{ path('gift_index') }}">Envoyer au père nöel</a>
                 </div>
                 <div class="col-md-3">
-                    <a class="btn btn-secondary saveButtons text-white" href="{{ path('gift_index') }}">Exporter tableau</a>
+                    <button class="btn btn-secondary saveButtons text-white" id="export_in_csv" >Exporter tableau</button>
                 </div>
                 <div class="col-md-3">
                     <a class="btn btn-success text-white" href="{{ path('gift_index') }}">Envoyer un fichier</a>
                 </div>
             {% endif %}
         </div>
-        <table class="table mt-4 table-sm table-bordered small tableGifts">
+        <table class="table mt-4 table-sm table-bordered small " id="tableGifts">
             <thead class="table-secondary">
             <tr class="text-primary">
                 <th class="text-center">Jouet</th>
@@ -36,7 +36,7 @@
             </thead>
             {% for gift in gifts %}
                 <tbody>
-                <tr>
+                <tr class="infosGifts">
                     <td class="textInLists textCenterInLists">{{ gift.name|upper ?: "" }}</td>
                     <td class="textInLists textCenterInLists">{{ gift.code.code|trans ?: "" }}</td>
                     <td class="textInLists textCenterInLists">{{ gift.description ?: "" }}</td>

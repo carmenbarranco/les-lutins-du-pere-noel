@@ -242,7 +242,6 @@ class FactoryGifts
         foreach ($gifts as $gift) {
             array_push($prices, $gift->getPrice());
         }
-        dump($prices);
         return $prices;
     }
 }

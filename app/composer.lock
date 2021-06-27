@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2d37d5892d0eec2d75dc10e72cfc4b80",
+    "content-hash": "a0e07a87cc745fe7d0169d351ca3a964",
     "packages": [
         {
             "name": "antishov/doctrine-extensions-bundle",
@@ -9286,6 +9286,48 @@
                 "source": "https://github.com/willdurand/Negotiation/tree/3.0.0"
             },
             "time": "2020-09-25T08:01:41+00:00"
+        },
+        {
+            "name": "yectep/phpspreadsheet-bundle",
+            "version": "v0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yectep/phpspreadsheet-bundle.git",
+                "reference": "6aab311686a541b75f2d33fd524cd0a56f7da84a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yectep/phpspreadsheet-bundle/zipball/6aab311686a541b75f2d33fd524cd0a56f7da84a",
+                "reference": "6aab311686a541b75f2d33fd524cd0a56f7da84a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6",
+                "phpoffice/phpspreadsheet": "~1.1",
+                "symfony/framework-bundle": "~2.7|~3.0|~4.0|^5.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Yectep\\PhpSpreadsheetBundle\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chester Li",
+                    "email": "yectep@gmail.com"
+                }
+            ],
+            "description": "A Symfony bundle to integrate with PHPOffice's PhpSpreadsheet library",
+            "support": {
+                "issues": "https://github.com/yectep/phpspreadsheet-bundle/issues",
+                "source": "https://github.com/yectep/phpspreadsheet-bundle/tree/v0.2.0"
+            },
+            "time": "2021-03-25T23:35:58+00:00"
         }
     ],
     "packages-dev": [

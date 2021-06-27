@@ -756,5 +756,8 @@
     },
     "willdurand/negotiation": {
         "version": "3.0.0"
+    },
+    "yectep/phpspreadsheet-bundle": {
+        "version": "v0.2.0"
     }
 }
