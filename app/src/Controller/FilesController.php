@@ -37,7 +37,8 @@ class FilesController extends AbstractController
     {
         if ($request->isXmlHttpRequest()) {
             return $this->spreadSheetGifts->export_cvs($request->get('columns'), $request->get('rows'), "les_cadeaux");
+        } else {
+            return $this->redirectToRoute('gift_index');
         }
-
     }
 }

@@ -20,14 +20,14 @@ class SpreadSheetGifts {
      * @param $columnNames
      * @param $columnValues
      * @param string $filename
-     * @return StreamedResponse
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    public function export_cvs($columnNames, $columnValues, string $filename): StreamedResponse
+    public function export_cvs($columnNames, $columnValues, string $filename)
     {
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
-        for ($i = 0, $l = sizeof(array_pop($columnNames)); $i < $l; $i++) {
+        array_pop($columnNames);
+        for ($i = 0, $l = sizeof($columnNames); $i < $l; $i++) {
             $sheet->setCellValueByColumnAndRow($i + 1, 1, $columnNames[$i]);
         }
         foreach ($columnValues as $column) {
@@ -47,5 +47,6 @@ class SpreadSheetGifts {
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="'. urlencode($filename).'"');
         $writer->save('/var/www/app/'.$filename.'.xlsx');
+
     }
 }
