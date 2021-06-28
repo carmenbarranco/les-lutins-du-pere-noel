@@ -23,9 +23,7 @@ class GiftsFixtures extends Fixture implements DependentFixtureInterface
             $gift->setFactoryGifts($factoryGifts);
             $gift->setName($faker->word);
             $gift->setDescription($faker->realText());
-            $gift->setSentToSanta($faker->numberBetween(0, 1));
             $gift->setPrice($faker->randomFloat(2, 1, 60));
-            $gift->setId($faker->uuid());
             $manager->persist($gift);
         }
         $manager->flush();

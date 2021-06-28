@@ -12,19 +12,20 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=GiftRepository::class)
- * @ApiResource(
- *  collectionOperations={"get"={"normalization_context"={"groups"="gift:list"}}},
- *     itemOperations={"get"={"normalization_context"={"groups"="gift:item"}}},
- *     paginationEnabled=false)
  */
-
+#[ApiResource(
+    denormalizationContext: ['groups' => 'write:gift'],
+    forceEager: false,
+    normalizationContext: ['groups' => 'read:gift']
+)]
 class Gift
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
-
+    #[Groups(['write:gift', 'write:user', 'read:user', 'read:gift'])]
     private $id;
 
     /**
@@ -41,46 +42,41 @@ class Gift
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * #[Groups(['gift:list', 'gift:item'])]
      */
+    #[Groups(['write:gift'])]
     private $description;
 
     /**
-     * @ORM\Column(type="float")
-     * #[Groups(['gift:list', 'gift:item'])]
+     * @ORM\Column(type="float", nullable=true))
      */
+    #[Groups(['write:gift'])]
     private $price;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="gifts")
-     * #[Groups(['gift:list', 'gift:item'])]
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="gifts", cascade={"persist"})
      */
+    #[Groups(['write:gift', 'write:user', 'read:user'])]
     private $receiver;
 
     /**
-     * @ORM\ManyToOne(targetEntity=FactoryGifts::class, inversedBy="gifts")
-     *#[Groups(['gift:list', 'gift:item'])]
+     * @ORM\ManyToOne(targetEntity=FactoryGifts::class, inversedBy="gifts", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups(['write:gift'])]
     private $factoryGifts;
 
     /**
-     * @ORM\ManyToOne(targetEntity=GiftCode::class, inversedBy="gifts")
-     * #[Groups(['gift:list', 'gift:item'])]
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=GiftCode::class, inversedBy="gifts", cascade={"persist"}))
+     * @ORM\JoinColumn(nullable=true)
      */
+    #[Groups(['write:gift', 'write:user', 'read:user', 'read:factoryGifts', 'read:code'])]
     private $code;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * #[Groups(["gift:list", "gift:item"])]
      */
+    #[Groups(["write:gift"])]
     private $name;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $sentToSanta;
 
     public function getId()
     {
@@ -128,7 +124,7 @@ class Gift
         return $this->price;
     }
 
-    public function setPrice(float $price): self
+    public function setPrice(?float $price): self
     {
         $this->price = $price;
 
@@ -179,28 +175,6 @@ class Gift
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @param $id
-     * @return Gift
-     */
-    public function setId($id): Gift
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    public function getSentToSanta(): ?bool
-    {
-        return $this->sentToSanta;
-    }
-
-    public function setSentToSanta(bool $sentToSanta): self
-    {
-        $this->sentToSanta = $sentToSanta;
 
         return $this;
     }

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -12,12 +13,19 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
+
+#[ApiResource(
+    denormalizationContext: ['groups' => 'write:user'],
+    forceEager: false,
+    normalizationContext: ['groups' => 'read:user'],
+)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
@@ -25,42 +33,50 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['write:gift', 'write:user', 'read:user', 'read:gift'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
+    #[Groups(['write:user', 'read:user', 'write:gift'])]
     private $email;
 
     /**
      * @ORM\Column(type="json")
      */
+    #[Groups(['write:user', 'read:user', 'write:gift'])]
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
+    #[Groups(['write:user', 'read:user'])]
     private $password;
 
     /**
      * @ORM\Column(type="string", length=50)
      */
+    #[Groups(['write:user', 'read:user'])]
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
      */
+    #[Groups(['write:user', 'read:user'])]
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=20, nullable=true)
      */
+    #[Groups(['write:user', 'read:user'])]
     private $phone;
 
     /**
      * @ORM\ManyToOne(targetEntity=FactoryGifts::class, inversedBy="users",  cascade={"persist"})
      */
+    #[Groups(['write:user', 'read:user'])]
     private $factoryGifts;
 
     /**
@@ -78,16 +94,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=20)
      */
+    #[Groups(['write:user', 'read:user'])]
     private ?string $countryCode;
 
     /**
-     * @ORM\OneToMany(targetEntity=Gift::class, mappedBy="receiver")
+     * @ORM\OneToMany(targetEntity=Gift::class, mappedBy="receiver",  cascade={"persist"}))
      */
+    #[Groups(['write:user', 'read:user'])]
     private ?Collection $gifts;
 
     /**
      * @ORM\Column(type="boolean")
      */
+    #[Groups(['write:user', 'read:user'])]
     private bool $isVerified = false;
 
     #[Pure] public function __construct()

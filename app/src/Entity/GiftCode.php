@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\GiftCodeRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -9,10 +10,15 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JetBrains\PhpStorm\Pure;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=GiftCodeRepository::class)
  */
+#[ApiResource(
+    denormalizationContext: ['groups' => 'write:code'],
+    forceEager: false,
+    normalizationContext: ['groups' => 'read:code'])]
 class GiftCode
 {
     /**
@@ -25,6 +31,7 @@ class GiftCode
     /**
      * @ORM\Column(type="string", length=20)
      */
+    #[Groups(['write:gift', 'write:user', 'read:user', 'read:gift', 'write:factoryGifts', 'read:code', 'write:code'])]
     private $code;
 
     /**

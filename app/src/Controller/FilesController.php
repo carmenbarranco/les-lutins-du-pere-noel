@@ -4,11 +4,9 @@ namespace App\Controller;
 
 use App\Services\SpreadSheetGifts;
 use Doctrine\ORM\EntityManagerInterface;
-use PhpOffice\PhpSpreadsheet\Reader\Exception;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -27,18 +25,14 @@ class FilesController extends AbstractController
         $this->spreadSheetGifts = $spreadSheetGifts;
     }
 
-
     /**
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
-     * @throws Exception
      */
     #[Route('/', name: 'save_file', methods: ['POST'])]
-    public function saveCsvGiftsFile(Request $request)
+    public function saveCsvGiftsFile(Request $request): RedirectResponse
     {
         if ($request->isXmlHttpRequest()) {
-            return $this->spreadSheetGifts->export_cvs($request->get('columns'), $request->get('rows'), "les_cadeaux");
-        } else {
-            return $this->redirectToRoute('gift_index');
+            $this->spreadSheetGifts->export_cvs($request->get('columns'), $request->get('rows'), "les_cadeaux");
         }
+        return $this->redirectToRoute('gift_index');
     }
 }

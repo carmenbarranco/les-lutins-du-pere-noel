@@ -2,38 +2,49 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\FactoryGiftsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JetBrains\PhpStorm\Pure;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=FactoryGiftsRepository::class)
  */
+#[ApiResource(
+    denormalizationContext: ['groups' => 'write:factoryGifts'],
+    forceEager: false,
+    normalizationContext: ['groups' => 'read:factoryGifts']
+)]
 class FactoryGifts
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
+    #[Groups(['write:gift', 'write:user', 'read:user', 'read:gift', 'write:factoryGifts'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['write:factoryGifts', 'write:gift'])]
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
+    #[Groups(['write:factoryGifts', 'write:gift'])]
     private $address;
 
     /**
      * @ORM\Column(type="string", length=20, nullable=true)
      */
+    #[Groups(['write:factoryGifts', 'write:gift'])]
     private $phone;
 
     /**
@@ -51,16 +62,19 @@ class FactoryGifts
     /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="factoryGifts")
      */
+    #[Groups(['write:factoryGifts', 'write:gift'])]
     private ?Collection $users;
 
     /**
      * @ORM\Column(type="string", length=20)
      */
+    #[Groups(['write:factoryGifts', 'write:gift'])]
     private $countryCode;
 
     /**
      * @ORM\OneToMany(targetEntity=Gift::class, mappedBy="factoryGifts", orphanRemoval=true)
      */
+    #[Groups(['write:factoryGifts', 'write:gift'])]
     private ?Collection $gifts;
 
     #[Pure] public function __construct()
@@ -181,6 +195,7 @@ class FactoryGifts
 
         return $this;
     }
+
     /**
      * Generates the magic method
      *
@@ -211,7 +226,7 @@ class FactoryGifts
     public function averagePrice(): float|int
     {
         $prices = $this->getAllPrice();
-        return $prices ? array_sum($prices)/count($prices) : 0;
+        return $prices ? array_sum($prices) / count($prices) : 0;
     }
 
     /**

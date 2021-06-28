@@ -3,24 +3,24 @@
 
 namespace App\Services;
 
-use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Style\Alignment;
-use PhpOffice\PhpSpreadsheet\Style\Border;
-use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
-use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use PhpOffice\PhpSpreadsheet\Writer\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use Symfony\Component\HttpFoundation\StreamedResponse;
-use Yectep\PhpSpreadsheetBundle\Factory;
+use Symfony\Component\Notifier\Notification\Notification;
+use Symfony\Component\Notifier\NotifierInterface;
 
 class SpreadSheetGifts {
+    private $notifier;
+
+    public function __construct(NotifierInterface $notifier)
+    {
+        $this->notifier = $notifier;
+    }
 
     /**
      * @param $columnNames
      * @param $columnValues
      * @param string $filename
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     public function export_cvs($columnNames, $columnValues, string $filename)
     {
@@ -46,7 +46,13 @@ class SpreadSheetGifts {
         $writer = new Xlsx($spreadsheet);
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="'. urlencode($filename).'"');
-        $writer->save('/var/www/app/'.$filename.'.xlsx');
+        try {
+            $writer->save('/var/www/app/public/uploads/' . $filename . '.xlsx');
+            $this->notifier->send(New Notification('Télechargement réussi', ['browser']));
+        } catch (Exception $e) {
+            $this->notifier->send(New Notification('Échec', ['browser']));
+            echo $e->getMessage();
+        }
 
     }
 }

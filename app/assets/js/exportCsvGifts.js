@@ -15,7 +15,6 @@ $(document).ready(function () {
             url: "/exporter/",
             data: {'columns': arrayTitle, 'rows' : arrayValues},
             method: 'POST'
-        }).then(function(response) {
         });
     });
 });

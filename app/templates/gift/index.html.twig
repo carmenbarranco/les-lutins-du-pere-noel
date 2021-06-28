@@ -10,19 +10,17 @@
                     <a class="btn btn-success saveButtons text-white" href="{{ path('gift_new') }}">Ajouter un cadeau</a>
                 </div>
                 <div class="col-md-3">
-                    <a class="btn btn-primary" href="{{ path('gift_index') }}">Envoyer au père nöel</a>
-                </div>
-                <div class="col-md-3">
                     <button class="btn btn-secondary saveButtons text-white" id="export_in_csv" >Exporter tableau</button>
                 </div>
                 <div class="col-md-3">
-                    <a class="btn btn-success text-white" href="{{ path('gift_index') }}">Envoyer un fichier</a>
+                    <a class="btn btn-success text-white" href="{{ path('gift_index') }}">Uploader un fichier</a>
                 </div>
             {% endif %}
         </div>
         <table class="table mt-4 table-sm table-bordered small " id="tableGifts">
             <thead class="table-secondary">
             <tr class="text-primary">
+                <th class="text-center" hidden>Id</th>
                 <th class="text-center">Jouet</th>
                 <th class="text-center">Code</th>
                 <th class="text-center">Description</th>
@@ -30,13 +28,13 @@
                 <th class="text-center">Client</th>
                 <th class="text-center">Pays</th>
                 <th class="text-center">Usine</th>
-                <th class="text-center">Envoyé à Santa</th>
                 <th class="text-center">Action</th>
             </tr>
             </thead>
             {% for gift in gifts %}
                 <tbody>
                 <tr class="infosGifts">
+                    <td class="textInLists textCenterInLists" hidden>{{ gift.id}}</td>
                     <td class="textInLists textCenterInLists">{{ gift.name|upper ?: "" }}</td>
                     <td class="textInLists textCenterInLists">{{ gift.code.code|trans ?: "" }}</td>
                     <td class="textInLists textCenterInLists">{{ gift.description ?: "" }}</td>
@@ -44,7 +42,6 @@
                     <td class="textInLists textCenterInLists">{{ gift.receiver.firstName }} {{ gift.receiver.lastName }}</td>
                     <td class="textInLists textCenterInLists">{{ gift.receiver.countryCode|country_name }}</td>
                     <td class="textInLists textCenterInLists">{{ gift.factoryGifts.name }}</td>
-                    <td class="textInLists textCenterInLists">{{ gift.sentToSanta ? "Oui" : "Non" }}</td>
                     <td class="textInLists textCenterInLists">
                         <a href="{{ path('gift_show', {'id': gift.id}) }}">Voir</a>
                         <a href="{{ path('gift_edit', {'id': gift.id}) }}">Éditer</a>
