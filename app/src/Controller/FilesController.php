@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Services\SpreadSheetGifts;
+use App\Service\SpreadSheetGifts;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;

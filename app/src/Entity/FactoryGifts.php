@@ -15,9 +15,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=FactoryGiftsRepository::class)
  */
 #[ApiResource(
-    denormalizationContext: ['groups' => 'write:factoryGifts'],
-    forceEager: false,
-    normalizationContext: ['groups' => 'read:factoryGifts']
+    denormalizationContext: ['groups' => 'write:giftFiles'],
+    normalizationContext: ['groups' => 'read:factories' ]
 )]
 class FactoryGifts
 {
@@ -26,25 +25,21 @@ class FactoryGifts
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      */
-    #[Groups(['write:gift', 'write:user', 'read:user', 'read:gift', 'write:factoryGifts'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['write:factoryGifts', 'write:gift'])]
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    #[Groups(['write:factoryGifts', 'write:gift'])]
     private $address;
 
     /**
      * @ORM\Column(type="string", length=20, nullable=true)
      */
-    #[Groups(['write:factoryGifts', 'write:gift'])]
     private $phone;
 
     /**
@@ -62,25 +57,29 @@ class FactoryGifts
     /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="factoryGifts")
      */
-    #[Groups(['write:factoryGifts', 'write:gift'])]
     private ?Collection $users;
 
     /**
      * @ORM\Column(type="string", length=20)
      */
-    #[Groups(['write:factoryGifts', 'write:gift'])]
     private $countryCode;
 
     /**
      * @ORM\OneToMany(targetEntity=Gift::class, mappedBy="factoryGifts", orphanRemoval=true)
      */
-    #[Groups(['write:factoryGifts', 'write:gift'])]
     private ?Collection $gifts;
+
+    /**
+     * @ORM\OneToMany(targetEntity=GiftsFiles::class, mappedBy="factoryGifts")
+     */
+    #[Groups(['write:giftFiles'])]
+    private $csvFiles;
 
     #[Pure] public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->gifts = new ArrayCollection();
+        $this->csvFiles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -258,5 +257,35 @@ class FactoryGifts
             array_push($prices, $gift->getPrice());
         }
         return $prices;
+    }
+
+    /**
+     * @return Collection|GiftsFiles[]
+     */
+    public function getCsvFiles(): Collection
+    {
+        return $this->csvFiles;
+    }
+
+    public function addCsvFile(GiftsFiles $csvFile): self
+    {
+        if (!$this->csvFiles->contains($csvFile)) {
+            $this->csvFiles[] = $csvFile;
+            $csvFile->setFactoryGifts($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCsvFile(GiftsFiles $csvFile): self
+    {
+        if ($this->csvFiles->removeElement($csvFile)) {
+            // set the owning side to null (unless already changed)
+            if ($csvFile->getFactoryGifts() === $this) {
+                $csvFile->setFactoryGifts(null);
+            }
+        }
+
+        return $this;
     }
 }

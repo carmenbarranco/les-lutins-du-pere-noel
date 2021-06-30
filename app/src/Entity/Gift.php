@@ -2,21 +2,19 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\GiftRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use ApiPlatform\Core\Annotation\ApiResource;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
  * @ORM\Entity(repositoryClass=GiftRepository::class)
  */
 #[ApiResource(
-    denormalizationContext: ['groups' => 'write:gift'],
-    forceEager: false,
-    normalizationContext: ['groups' => 'read:gift']
+    denormalizationContext: ['groups' => 'write:Gift'],
+    normalizationContext: ['groups' => 'read:collection' ]
 )]
 class Gift
 {
@@ -25,7 +23,6 @@ class Gift
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      */
-    #[Groups(['write:gift', 'write:user', 'read:user', 'read:gift'])]
     private $id;
 
     /**
@@ -43,40 +40,39 @@ class Gift
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    #[Groups(['write:gift'])]
     private $description;
 
     /**
      * @ORM\Column(type="float", nullable=true))
      */
-    #[Groups(['write:gift'])]
     private $price;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="gifts", cascade={"persist"})
      */
-    #[Groups(['write:gift', 'write:user', 'read:user'])]
     private $receiver;
 
     /**
      * @ORM\ManyToOne(targetEntity=FactoryGifts::class, inversedBy="gifts", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['write:gift'])]
     private $factoryGifts;
 
     /**
      * @ORM\ManyToOne(targetEntity=GiftCode::class, inversedBy="gifts", cascade={"persist"}))
      * @ORM\JoinColumn(nullable=true)
      */
-    #[Groups(['write:gift', 'write:user', 'read:user', 'read:factoryGifts', 'read:code'])]
     private $code;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(["write:gift"])]
     private $name;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $fromFile;
 
     public function getId()
     {
@@ -175,6 +171,18 @@ class Gift
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getFromFile(): ?bool
+    {
+        return $this->fromFile;
+    }
+
+    public function setFromFile(bool $fromFile): self
+    {
+        $this->fromFile = $fromFile;
 
         return $this;
     }

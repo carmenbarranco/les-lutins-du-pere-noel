@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\FactoryGifts;
 use App\Entity\Gift;
+use App\Form\FactoryGiftsCsvType;
 use App\Form\GiftType;
 use App\Repository\FactoryGiftsRepository;
 use App\Repository\GiftRepository;
@@ -31,13 +33,17 @@ class GiftController extends AbstractController
     {
         $gifts = "";
         if ($this->isGranted('ROLE_CHIEF') || $this->isGranted('ROLE_ELVES')) {
-            $gifts = $giftRepository->findBy(["factoryGifts" => $this->getUser()->getFactoryGifts()]);
+            $factoryId = $this->getUser()->getFactoryGifts();
+            $gifts = $giftRepository->findBy(["factoryGifts" => $factoryId]);
+            $factory = $this->em->find(FactoryGifts::class, $factoryId);
+            $form = $this->createForm(FactoryGiftsCsvType::class, $factory);
         } elseif ($this->isGranted('ROLE_RECEIVER')) {
             $gifts = $giftRepository->findBy(['receiver' => $this->getUser()->getId()]);
         }
 
         return $this->render('gift/index.html.twig', [
             'gifts' => $gifts,
+            'formCsv' => $form ? $form->createView() : null
         ]);
     }
 

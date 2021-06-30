@@ -7,13 +7,31 @@
         <div class="row mt-5 mb-5">
             {% if is_granted("ROLE_CHIEF") %}
                 <div class="col-md-3">
-                    <a class="btn btn-success saveButtons text-white" href="{{ path('gift_new') }}">Ajouter un cadeau</a>
+                    <a class="btn btn-success saveButtons text-white" href="{{ path('gift_new') }}">Ajouter un
+                        cadeau</a>
                 </div>
                 <div class="col-md-3">
-                    <button class="btn btn-secondary saveButtons text-white" id="export_in_csv" >Exporter tableau</button>
+                    <button class="btn btn-secondary saveButtons text-white" id="export_in_csv">Exporter tableau
+                    </button>
                 </div>
                 <div class="col-md-3">
-                    <a class="btn btn-success text-white" href="{{ path('gift_index') }}">Uploader un fichier</a>
+                    <div class="col-md-12">
+
+                    {% if formCsv is defined %}
+                        <form id="formUploadsCsv" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="hidden" class="form-control" id="factoryId" name="factoryId" value="{{ app.user.factoryGifts.id}}"/>
+                                    <input type="file" class="form-control" id="file" name="file" required />
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="submit" name="submit" class="btn btn-success submitBtn text-white" value="Envoyer"/>
+                                </div>
+                            </div>
+                        </form>
+                    {% endif %}
+                    </div>
+
                 </div>
             {% endif %}
         </div>
@@ -27,21 +45,27 @@
                 <th class="text-center">Prix</th>
                 <th class="text-center">Client</th>
                 <th class="text-center">Pays</th>
-                <th class="text-center">Usine</th>
+                <th class="text-center">Reçu par fichier</th>
+                {% if is_granted("ROLE_SANTA") %}
+                    <th class="text-center">Usine</th>
+                {% endif %}
                 <th class="text-center">Action</th>
             </tr>
             </thead>
             {% for gift in gifts %}
                 <tbody>
                 <tr class="infosGifts">
-                    <td class="textInLists textCenterInLists" hidden>{{ gift.id}}</td>
+                    <td class="textInLists textCenterInLists" hidden>{{ gift.id }}</td>
                     <td class="textInLists textCenterInLists">{{ gift.name|upper ?: "" }}</td>
                     <td class="textInLists textCenterInLists">{{ gift.code.code|trans ?: "" }}</td>
                     <td class="textInLists textCenterInLists">{{ gift.description ?: "" }}</td>
                     <td class="textInLists textCenterInLists">{{ gift.price ?: "" }} €</td>
                     <td class="textInLists textCenterInLists">{{ gift.receiver.firstName }} {{ gift.receiver.lastName }}</td>
                     <td class="textInLists textCenterInLists">{{ gift.receiver.countryCode|country_name }}</td>
-                    <td class="textInLists textCenterInLists">{{ gift.factoryGifts.name }}</td>
+                    <td class="textInLists textCenterInLists">{{ gift.fromFile ? "Oui" : "NON" }}</td>
+                    {% if is_granted("ROLE_SANTA") %}
+                        <td class="textInLists textCenterInLists">{{ gift.factoryGifts.name }}</td>
+                    {% endif %}
                     <td class="textInLists textCenterInLists">
                         <a href="{{ path('gift_show', {'id': gift.id}) }}">Voir</a>
                         <a href="{{ path('gift_edit', {'id': gift.id}) }}">Éditer</a>

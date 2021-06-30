@@ -36,3 +36,15 @@
 .buttonWithoutStyle:focus {
   outline: 0;
 }
+
+.custom-file-label:after {
+  bottom: 0;
+  z-index: 3;
+  display: block;
+  visibility: hidden;
+  height: calc(1.5em + .75rem);
+  content: "Envoyer";
+  background-color: #e9ecef;
+  border-left: inherit;
+  border-radius: 0 .25rem .25rem 0;
+}
