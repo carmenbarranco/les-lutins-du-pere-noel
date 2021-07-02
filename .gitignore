@@ -28,3 +28,4 @@ mysql/*
 .idea
 app/.env
 
+/mysql/
