@@ -17,6 +17,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN docker-php-ext-configure intl && docker-php-ext-install intl
 RUN docker-php-ext-install pdo pdo_mysql gd opcache intl zip calendar dom mbstring xsl
 RUN pecl install xdebug-3.0.1 && docker-php-ext-enable xdebug
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt-get install -y nodejs
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 RUN apt-get update && apt-get install -y yarn

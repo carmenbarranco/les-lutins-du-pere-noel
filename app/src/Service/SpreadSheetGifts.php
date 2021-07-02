@@ -4,6 +4,7 @@
 namespace App\Service;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Csv;
 use PhpOffice\PhpSpreadsheet\Writer\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\Notifier\Notification\Notification;
@@ -43,11 +44,11 @@ class SpreadSheetGifts {
             }
         }
 
-        $writer = new Xlsx($spreadsheet);
+        $writer = new Csv($spreadsheet);
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="'. urlencode($filename).'"');
         try {
-            $writer->save('/var/www/app/public/uploads/' . $filename . '.xlsx');
+            $writer->save('/var/www/app/public/uploads/' . $filename . '.csv');
             $this->notifier->send(New Notification('Télechargement réussi', ['browser']));
         } catch (Exception $e) {
             $this->notifier->send(New Notification('Échec', ['browser']));

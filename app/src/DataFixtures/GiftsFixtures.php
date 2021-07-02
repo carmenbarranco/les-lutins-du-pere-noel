@@ -24,7 +24,7 @@ class GiftsFixtures extends Fixture implements DependentFixtureInterface
             $gift->setName($faker->word);
             $gift->setDescription($faker->realText());
             $gift->setPrice($faker->randomFloat(2, 1, 60));
-            $gift->setPrice($faker->randomFloat(2, 1, 60));
+            $gift->setFromFile(0);
             $manager->persist($gift);
         }
         $manager->flush();
