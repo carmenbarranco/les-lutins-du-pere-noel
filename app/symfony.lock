@@ -150,6 +150,9 @@
     "laminas/laminas-code": {
         "version": "4.4.0"
     },
+    "league/csv": {
+        "version": "9.7.1"
+    },
     "maennchen/zipstream-php": {
         "version": "2.1.0"
     },

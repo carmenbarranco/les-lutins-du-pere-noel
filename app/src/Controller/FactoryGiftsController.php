@@ -34,6 +34,7 @@ class FactoryGiftsController extends AbstractController
     #[Route('/lutins/{id}', name: 'factory_gifts_elves', methods: ['GET'])]
     public function indexLutins(FactoryGifts $factoryGifts): Response
     {
+        // Get lutins by factory_gifts
         $elves = $factoryGifts->getUsers();
         return $this->render('factoryGifts/indexLutins.html.twig', [
             'elves' => $elves

@@ -32,6 +32,7 @@ class GiftController extends AbstractController
     public function index(GiftRepository $giftRepository): Response
     {
         $gifts = "";
+        //show diffents gifts according to roles
         if ($this->isGranted('ROLE_CHIEF') || $this->isGranted('ROLE_ELVES')) {
             $factoryId = $this->getUser()->getFactoryGifts();
             $gifts = $giftRepository->findBy(["factoryGifts" => $factoryId]);
@@ -50,6 +51,7 @@ class GiftController extends AbstractController
     #[Route('/stocks', name: 'gift_index_by_factory', methods: ['GET'])]
     public function indexByFactory(FactoryGiftsRepository $factoryGiftRepo): Response
     {
+        // This is the views for Santa (stock by factory)
         $factories = $factoryGiftRepo->findAll();
 
         return $this->render('gift/indexByFactory.html.twig', [

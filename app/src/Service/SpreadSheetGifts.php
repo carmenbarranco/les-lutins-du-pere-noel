@@ -6,7 +6,6 @@ namespace App\Service;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Csv;
 use PhpOffice\PhpSpreadsheet\Writer\Exception;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\NotifierInterface;
 
@@ -33,7 +32,8 @@ class SpreadSheetGifts {
         }
         foreach ($columnValues as $column) {
             $cleanValues = str_replace('Éditer', '', (str_replace("Voir", "", $column)));
-            $columns[] = array_filter(explode("\n", $cleanValues));
+            $cleanArray = explode("\n", str_replace("  ", "", $cleanValues));
+            $columns[] = array_filter($cleanArray);
         }
 
         for ($i = 0, $l = sizeof($columns); $i < $l; $i++) { // row $i

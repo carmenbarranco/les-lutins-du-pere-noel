@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\FactoryGifts;
 use App\Entity\GiftsFiles;
 use App\Service\FileUploader;
+use App\Service\SaveGiftsFromApi;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,10 +20,12 @@ final class GiftCsvController extends AbstractController
      * @var EntityManagerInterface
      */
     private  $em;
+    private SaveGiftsFromApi $saveGift;
 
-    public function __construct(EntityManagerInterface $em, FileUploader $fileUploader)
+    public function __construct(EntityManagerInterface $em, FileUploader $fileUploader, SaveGiftsFromApi $saveGift)
     {
         $this->fileUploader = $fileUploader;
+        $this->saveGift = $saveGift;
         $this->em = $em;
     }
 
@@ -33,13 +36,14 @@ final class GiftCsvController extends AbstractController
             throw new BadRequestHttpException('"file" is required');
         }
 
-        $nameFile = $this->fileUploader->upload($uploadedFile);
+        $infosFile = $this->fileUploader->upload($uploadedFile);
 
         $newCsvFile = new GiftsFiles();
-        $newCsvFile->setName($nameFile);
-        $factoryId = $this->em->find(FactoryGifts::class, $request->get('factoryId'));
-        $newCsvFile->setFactoryGifts($factoryId);
+        $newCsvFile->setName($infosFile[0]);
+        $factory = $this->em->find(FactoryGifts::class, $request->get('factoryId'));
+        $newCsvFile->setFactoryGifts($factory);
 
+        $this->saveGift->saveDatas($infosFile[1], $factory);
 
         return $newCsvFile;
     }

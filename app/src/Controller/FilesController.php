@@ -5,8 +5,9 @@ namespace App\Controller;
 use App\Service\SpreadSheetGifts;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -26,13 +27,18 @@ class FilesController extends AbstractController
     }
 
     /**
+     * Methods thats allow to save csv file's with spreadSheet via the service created for save files
      */
     #[Route('/', name: 'save_file', methods: ['POST'])]
-    public function saveCsvGiftsFile(Request $request): RedirectResponse
+    public function saveCsvGiftsFile(Request $request): BinaryFileResponse
     {
         if ($request->isXmlHttpRequest()) {
             $this->spreadSheetGifts->export_cvs($request->get('columns'), $request->get('rows'), "les_cadeaux");
         }
-        return $this->redirectToRoute('gift_index');
+        $html = "/var/www/app/public/uploads/les_cadeaux.csv";
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/force-download');
+        header('Content-Disposition: attachment; filename=/var/www/app/public/uploads/les_cadeaux.csv');
+        echo $html;
     }
 }
