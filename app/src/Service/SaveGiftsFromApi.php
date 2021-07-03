@@ -36,6 +36,7 @@ class SaveGiftsFromApi {
             $i++;
             $newGitf = new Gift();
             $client = $this->em->getRepository(User::class)->findBy(['email' => $gift['Mail Client']]);
+            // If client already exists we doesn't create a new
             if ($client) {
                 $newGitf->setReceiver($client[0]);
             } else {
@@ -48,6 +49,7 @@ class SaveGiftsFromApi {
                 $newReceiver->setRoles(['ROLE_RECEIVER', 'ROLE_USER']);
                 $newReceiver->isVerified(1);
                 $newReceiver->setPassword($this->encoder->hashPassword($newReceiver, 'totototo'));
+                // get the span hidden parameters from table gifts to set correct code pyas
                 $codePays = explode('/', $gift['Pays']);
                 $newReceiver->setCountryCode($codePays[1]);
                 $this->em->persist($newReceiver);

@@ -8,6 +8,7 @@ use App\Service\FileUploader;
 use App\Service\SaveGiftsFromApi;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -29,7 +30,7 @@ final class GiftCsvController extends AbstractController
         $this->em = $em;
     }
 
-    public function __invoke(Request $request): GiftsFiles
+    public function __invoke(Request $request): JsonResponse
     {
         $uploadedFile = $request->files->get('file');
         if (!$uploadedFile) {
@@ -45,6 +46,6 @@ final class GiftCsvController extends AbstractController
 
         $this->saveGift->saveDatas($infosFile[1], $factory);
 
-        return $newCsvFile;
+        return new JsonResponse('succes');
     }
 }
