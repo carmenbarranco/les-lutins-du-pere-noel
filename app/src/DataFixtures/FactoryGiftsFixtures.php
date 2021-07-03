@@ -13,7 +13,7 @@ class FactoryGiftsFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
-        $numbers = range(2, 12);
+        $numbers = range(2, 13);
         shuffle($numbers);
         $id = array_slice($numbers, 0, 20);
         for($factoriesNb = 1; $factoriesNb <= 20; $factoriesNb++){

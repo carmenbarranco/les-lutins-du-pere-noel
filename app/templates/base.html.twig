@@ -20,7 +20,7 @@
     <header class="navbar navbar-dark sticky-top bg-primary flex-md-nowrap shadow">
         <div class="col-md-6 ml-3">
             <a class="navbar-brand" href="{{ path('app_home') }}">
-                Gestion de stock des cadeaux du Père Nöel
+                Gestion de stock des cadeaux du Père Nöel {{ app.user and app.user.factoryGifts ? " - Usine de " ~ app.user.factoryGifts.name : "" }}
             </a>
         </div>
         <div class="col-md-6">

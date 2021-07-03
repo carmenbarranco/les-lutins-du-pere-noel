@@ -67,6 +67,9 @@ class GiftController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $gift->setFromFile(0);
+            $factory = $this->em->find(FactoryGifts::class, $this->getUser()->getFactoryGifts()->getId());
+            $gift->setFactoryGifts($factory);
             $this->em->persist($gift);
             $this->em->flush();
 

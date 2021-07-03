@@ -43,7 +43,10 @@
                 <th class="text-center">Code</th>
                 <th class="text-center">Description</th>
                 <th class="text-center">Prix</th>
-                <th class="text-center">Client</th>
+                <th class="text-center">Nom Client</th>
+                <th class="text-center">Prénom Client</th>
+                <th class="text-center">Mail Client</th>
+                <th class="text-center">Télephone Client</th>
                 <th class="text-center">Pays</th>
                 <th class="text-center">Reçu par fichier</th>
                 {% if is_granted("ROLE_SANTA") %}
@@ -57,11 +60,14 @@
                 <tr class="infosGifts">
                     <td class="textInLists textCenterInLists" hidden>{{ gift.id }}</td>
                     <td class="textInLists textCenterInLists">{{ gift.name|upper ?: "" }}</td>
-                    <td class="textInLists textCenterInLists">{{ gift.code.code|trans ?: "" }}</td>
+                    <td class="textInLists textCenterInLists">{{ gift.code.code ?: "" }}</td>
                     <td class="textInLists textCenterInLists">{{ gift.description ?: "" }}</td>
                     <td class="textInLists textCenterInLists">{{ gift.price ?: "" }} €</td>
-                    <td class="textInLists textCenterInLists">{{ gift.receiver.firstName }} {{ gift.receiver.lastName }}</td>
-                    <td class="textInLists textCenterInLists">{{ gift.receiver.countryCode|country_name }}</td>
+                    <td class="textInLists textCenterInLists">{{ gift.receiver.firstName }}</td>
+                    <td class="textInLists textCenterInLists">{{ gift.receiver.lastName }}</td>
+                    <td class="textInLists textCenterInLists">{{ gift.receiver.email }}</td>
+                    <td class="textInLists textCenterInLists">{{ gift.receiver.phone }}</td>
+                    <td class="textInLists textCenterInLists">{{ gift.receiver.countryCode|country_name }}<span class="text-white">{{ gift.receiver.countryCode }}</span></td>
                     <td class="textInLists textCenterInLists">{{ gift.fromFile ? "Oui" : "NON" }}</td>
                     {% if is_granted("ROLE_SANTA") %}
                         <td class="textInLists textCenterInLists">{{ gift.factoryGifts.name }}</td>

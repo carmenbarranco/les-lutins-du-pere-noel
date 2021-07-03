@@ -45,7 +45,7 @@ class SaveGiftsFromApi {
                 $newMail = strtolower($gift['Prénom Client'].$gift['Nom Client'].'_'.$i);
                 $newReceiver->setEmail($newMail.'@les-lutins-pere-noel.fr');
                 $newReceiver->setPhone($gift['Télephone Client']);
-                $newReceiver->setRoles(['ROLE_RECEIVER']);
+                $newReceiver->setRoles(['ROLE_RECEIVER', 'ROLE_USER']);
                 $newReceiver->isVerified(1);
                 $newReceiver->setPassword($this->encoder->hashPassword($newReceiver, 'totototo'));
                 $codePays = explode('/', $gift['Pays']);

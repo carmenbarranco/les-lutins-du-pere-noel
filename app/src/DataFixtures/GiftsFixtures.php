@@ -15,7 +15,7 @@ class GiftsFixtures extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
         for($giftsNb = 1; $giftsNb <= 100; $giftsNb++){
             $receiver = $this->getReference('user_'. $faker->numberBetween(11, 20));
-            $factoryGifts = $this->getReference('factory_gifts_'. $faker->numberBetween(1, 10));
+            $factoryGifts = $this->getReference('factory_gifts_'. $faker->numberBetween(1, 20));
             $giftCode = $this->getReference('gifts_code'. $faker->numberBetween(1, 7));
             $gift = new Gift();
             $gift->setCode($giftCode);

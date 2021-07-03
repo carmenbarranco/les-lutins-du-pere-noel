@@ -28,10 +28,6 @@ class GiftType extends AbstractType
             ->add('description', TextType::class, [
                 'label' => "Description"
             ])
-            ->add('factoryGifts', EntityType::class, [
-                'class' => FactoryGifts::class,
-                'label' => 'Usine',
-            ])
             ->add('code', EntityType::class, [
                 'required' => false,
                 'class' => GiftCode::class,

@@ -25,19 +25,19 @@ class UsersFixtures extends Fixture
             $user = new User();
             $user->setEmail($this->faker->email);
             if ($nbUsers === 1) {
-                $user->setRoles(['ROLE_SANTA']);
+                $user->setRoles(['ROLE_SANTA', 'ROLE_USER']);
                 $user->setEmail('perenoel@les-lutins-du-pere-noel.fr');
                 $this->addReference('user_' . $nbUsers, $user);
-            } elseif (2 <= $nbUsers && $nbUsers <= 5) {
-                $user->setRoles(['ROLE_CHIEF']);
+            } elseif (2 <= $nbUsers && $nbUsers <= 6) {
+                $user->setRoles(['ROLE_CHIEF', 'ROLE_USER']);
                 $user->setEmail('chef'.$nbUsers.'@les-lutins-du-pere-noel.fr');
                 $this->addReference('user_' . $nbUsers, $user);
-            } elseif (5 <= $nbUsers && $nbUsers <= 12) {
-                $user->setRoles(['ROLE_ELVES']);
+            } elseif (6 <= $nbUsers && $nbUsers <= 13) {
+                $user->setRoles(['ROLE_ELVES', 'ROLE_USER']);
                 $user->setEmail('lutin'.$nbUsers.'@les-lutins-du-pere-noel.fr');
                 $this->addReference('user_' . $nbUsers, $user);
             } else {
-                $user->setRoles(['ROLE_RECEIVER']);
+                $user->setRoles(['ROLE_RECEIVER', 'ROLE_USER']);
                 $user->setEmail('receiver'.$nbUsers.'@les-lutins-du-pere-noel.fr');
                 $this->addReference('user_' . $nbUsers, $user);
             }

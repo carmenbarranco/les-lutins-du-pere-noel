@@ -5,11 +5,13 @@ namespace App\Service;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Csv;
-use PhpOffice\PhpSpreadsheet\Writer\Exception;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\NotifierInterface;
 
-class SpreadSheetGifts {
+class SpreadSheetGifts
+{
     private $notifier;
 
     public function __construct(NotifierInterface $notifier)
@@ -45,15 +47,7 @@ class SpreadSheetGifts {
         }
 
         $writer = new Csv($spreadsheet);
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment; filename="'. urlencode($filename).'"');
-        try {
-            $writer->save('/var/www/app/public/uploads/' . $filename . '.csv');
-            $this->notifier->send(New Notification('Télechargement réussi', ['browser']));
-        } catch (Exception $e) {
-            $this->notifier->send(New Notification('Échec', ['browser']));
-            echo $e->getMessage();
-        }
-
+        $filePath = '/var/www/app/public/uploads/les_cadeaux.csv';
+        $writer->save($filePath);
     }
 }
