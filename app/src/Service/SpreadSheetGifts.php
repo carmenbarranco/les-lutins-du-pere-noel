@@ -5,9 +5,6 @@ namespace App\Service;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Csv;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\NotifierInterface;
 
 class SpreadSheetGifts
@@ -24,7 +21,7 @@ class SpreadSheetGifts
      * @param $columnValues
      * @param string $filename
      */
-    public function export_cvs($columnNames, $columnValues, string $filename)
+    public function export_cvs($columnNames, $columnValues, string $filename): string
     {
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
@@ -48,6 +45,9 @@ class SpreadSheetGifts
 
         $writer = new Csv($spreadsheet);
         $filePath = '/var/www/app/public/uploads/les_cadeaux.csv';
-        $writer->save($filePath);
+        if (isset($filePath)) {
+            $writer->save($filePath);
+            return $filePath;
+        }
     }
 }

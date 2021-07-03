@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Service\SpreadSheetGifts;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Notifier\NotifierInterface;
@@ -33,15 +35,12 @@ class FilesController extends AbstractController
     public function saveCsvGiftsFile(Request $request): Response
     {
         if ($request->isXmlHttpRequest()) {
-            $this->spreadSheetGifts->export_cvs($request->get('columns'), $request->get('rows'), "les_cadeaux");
+            try {
+                $this->spreadSheetGifts->export_cvs($request->get('columns'), $request->get('rows'), "les_cadeaux");
+                return new JsonResponse('succes');
+            } catch (Exception $e) {
+                return new JsonResponse($e);
+            }
         }
-        $response = new Response("'/var/www/app/public/uploads/les_cadeaux.csv'");
-        $disposition = HeaderUtils::makeDisposition(
-            HeaderUtils::DISPOSITION_ATTACHMENT,
-            'les_cadeaux.csv'
-        );
-
-        $response->headers->set('Content-Disposition', $disposition);
-        return $response;
     }
 }

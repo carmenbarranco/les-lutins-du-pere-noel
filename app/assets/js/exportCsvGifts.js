@@ -18,7 +18,12 @@ $(document).ready(function () {
         $.ajax({
             url: "/exporter/",
             data: {'columns': arrayTitle, 'rows': arrayValues},
-            method: 'POST'
+            method: 'POST',
+            success: function(reponse){
+                if(reponse === "succes") {
+                    location.reload();
+                }
+            }
         });
     });
 
@@ -40,7 +45,12 @@ $(document).ready(function () {
             dataType: 'json',
             contentType: false,
             cache: false,
-            processData:false
+            processData:false,
+            success: function(reponse){
+                if(reponse === "succes") {
+                    location.reload();
+                }
+            }
         });
     });
 })
